@@ -14,6 +14,10 @@ export default [
     rules: {
       eqeqeq: 'off',
       'no-unused-vars': 'error',
+      'no-console': 'error',
+      'no-undef': 'error',
+      'no-unreachable': 'error',
+      'no-unused-expressions': 'error',
       'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
     },
   },
