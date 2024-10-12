@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./config"));
-const logger_1 = require("./shared/logger");
-function bootstrap() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield mongoose_1.default.connect(config_1.default.database_url);
-            logger_1.logger.info(`Database connected`);
-            app_1.default.listen(config_1.default.port, () => {
-                logger_1.logger.info(`Example app listening on port ${config_1.default.port}`);
-            });
-        }
-        catch (err) {
-            logger_1.errorLogger.error(`faild to connect Database `, err);
-        }
-    });
-}
-bootstrap();
+exports.UserService = void 0;
+const index_1 = __importDefault(require("../../../config/index"));
+const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
+const user_utlis_1 = require("./user.utlis");
+const user_model_1 = require("./user.model");
+const creatUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    // auto generate increment id
+    const id = yield (0, user_utlis_1.generateUserId)();
+    user.id = id;
+    if (!user.password) {
+        user.password = index_1.default.default_user_pass;
+    }
+    const createdUser = yield user_model_1.User.create(user);
+    if (!creatUser) {
+        throw new ApiError_1.default(400, 'Failed to create user');
+    }
+    return createdUser;
+});
+exports.UserService = {
+    creatUser,
+};

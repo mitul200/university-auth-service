@@ -1,8 +1,10 @@
 import express from 'express'
+import { UserController } from './user.controller'
 
-import usersController from './users.controller'
 const router = express.Router()
 
-router.post('/creat-user', usersController.creatUsers)
+router.post('/creat-user', UserController.creatUsers)
 
-export default router
+export const UserRoutes = router
+
+// gose to ===>>> app.ts
